@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle-inspired App</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 10px; }
+    #feedback { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>Wordle-inspired App</h1>
+
+  <h2>User Guess</h2>
+  <form id="userForm">
+    <input type="number" id="userGuess" min="0" max="9" placeholder="Enter your guess" required>
+    <button type="submit">Submit Guess</button>
+  </form>
+
+  <h2>Admin Input</h2>
+  <form id="adminForm">
+    <input type="number" id="adminResult" min="0" max="9" placeholder="Set Admin Result" required>
+    <button type="submit">Submit Admin Result</button>
+  </form>
+
+  <div id="feedback"></div>
+
+  <script>
+    // User Guess form
+    const userForm = document.getElementById('userForm');
+    const adminForm = document.getElementById('adminForm');
+    const feedbackDiv = document.getElementById('feedback');
+    const userGuessInput = document.getElementById('userGuess');
+    const adminResultInput = document.getElementById('adminResult');
+
+    userForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const guess = userGuessInput.value;
+      
+      // Send user guess to backend
+      const response = await fetch('/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ guess: parseInt(guess, 10) }),
+      });
+      
+      const result = await response.json();
+      feedbackDiv.textContent = `Feedback: ${result}`;
+    });
+
+    adminForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const result = adminResultInput.value;
+      
+      // Send admin result to backend
+      await fetch('/admin/input', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ result: parseInt(result, 10) }),
+      });
+
+      feedbackDiv.textContent = "Admin result set!";
+    });
+  </script>
+</body>
+</html>
