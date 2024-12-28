@@ -13,8 +13,8 @@ pub type SharedAdminResult = Arc<Mutex<Option<AdminResult>>>;
 pub fn admin_routes(admin_result: SharedAdminResult) -> Router {
 
     Router::new()
-        .route("/", get(admin_input))
-        .route("/input", post(submit_admin_result))
+        .route("/admin", get(admin_input))
+        .route("/admin/input", post(submit_admin_result))
         .with_state(admin_result)
 }
 

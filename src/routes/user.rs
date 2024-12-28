@@ -9,7 +9,7 @@ use crate::routes::admin::SharedAdminResult;
 
 pub fn user_routes(admin_result: SharedAdminResult) -> Router {
     Router::new()
-    .route("/", post(user_input))
+    .route("/user", post(user_input))
     .with_state(admin_result)
 }
 
