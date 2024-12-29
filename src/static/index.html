@@ -65,5 +65,58 @@
       feedbackDiv.textContent = "Admin result set!";
     });
   </script>
+  <h2>Register</h2>
+  <form id="registerForm">
+    <input type="text" id="registerUsername" placeholder="Username" required>
+    <input type="password" id="registerPassword" placeholder="Password" required>
+    <button type="submit">Register</button>
+  </form>
+  
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="text" id="loginUsername" placeholder="Username" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  
+  <div id="authFeedback"></div>
+  
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
+    const authFeedbackDiv = document.getElementById('authFeedback');
+  
+    // Handle registration
+    registerForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const username = document.getElementById('registerUsername').value;
+      const password = document.getElementById('registerPassword').value;
+  
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const result = await response.text();
+      authFeedbackDiv.textContent = `Registration: ${result}`;
+    });
+  
+    // Handle login
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+  
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const result = await response.text();
+      authFeedbackDiv.textContent = `Login: ${result}`;
+    });
+  </script>
 </body>
 </html>

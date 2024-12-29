@@ -9,3 +9,9 @@ pub struct AdminResult {
 pub struct UserGuess {
     pub guess: u8,
 }
+
+#[derive(Deserialize, Serialize, Clone)]
+pub struct User {
+    pub username: String,
+    pub password: String,
+}
